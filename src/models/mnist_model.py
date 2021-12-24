@@ -25,6 +25,7 @@ class MNISTLitModel(LightningModule):
 
     def __init__(
         self,
+        module,
         input_size: int = 784,
         lin1_size: int = 256,
         lin2_size: int = 256,
@@ -39,7 +40,7 @@ class MNISTLitModel(LightningModule):
         # it also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False)
 
-        self.model = SimpleDenseNet(hparams=self.hparams)
+        self.model = module
 
         # loss function
         self.criterion = torch.nn.CrossEntropyLoss()
