@@ -5,6 +5,9 @@ gpus: 1
 min_epochs: 1
 max_epochs: 3
 
+# defautls amp_backend="native"  apex is mixed presition culculation nvidia provide
+amp_backend: "apex"
+
 resume_from_checkpoint: null
 
 # number of validation steps to execute at the beginning of the training
