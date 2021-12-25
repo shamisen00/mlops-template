@@ -5,8 +5,6 @@ from pytorch_lightning import LightningModule
 from torchmetrics import MaxMetric
 from torchmetrics.classification.accuracy import Accuracy
 
-from src.models.modules.simple_dense_net import SimpleDenseNet
-
 
 class MNISTLitModel(LightningModule):
     """
@@ -26,13 +24,7 @@ class MNISTLitModel(LightningModule):
     def __init__(
         self,
         module,
-        input_size: int = 784,
-        lin1_size: int = 256,
-        lin2_size: int = 256,
-        lin3_size: int = 256,
-        output_size: int = 10,
-        lr: float = 0.001,
-        weight_decay: float = 0.0005,
+        optimizer
     ):
         super().__init__()
 
@@ -41,6 +33,7 @@ class MNISTLitModel(LightningModule):
         self.save_hyperparameters(logger=False)
 
         self.model = module
+        self.optimizer = optimizer
 
         # loss function
         self.criterion = torch.nn.CrossEntropyLoss()
@@ -122,6 +115,4 @@ class MNISTLitModel(LightningModule):
         See examples here:
             https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html#configure-optimizers
         """
-        return torch.optim.Adam(
-            params=self.parameters(), lr=self.hparams.lr, weight_decay=self.hparams.weight_decay
-        )
+        return self.optimizer

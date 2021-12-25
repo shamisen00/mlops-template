@@ -1,9 +1,9 @@
-network:
-  _target_: src.models.mnist_model.MNISTLitModel
-  lr: 0.001
-  weight_decay: 0.0005
-  module: Missing
-
 defaults:
   - module: dense_net
+  - optimizer: adam
+
+network:
+  _target_: src.models.mnist_model.MNISTLitModel
+  optimizer: Missing
+  module: Missing
 
