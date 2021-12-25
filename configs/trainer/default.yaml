@@ -3,7 +3,10 @@ _target_: pytorch_lightning.Trainer
 gpus: 1
 
 min_epochs: 1
-max_epochs: 3
+max_epochs: 8
+
+# defautls amp_backend="native"  apex is mixed presition culculation nvidia provide
+amp_backend: "apex"
 
 # defautls amp_backend="native"  apex is mixed presition culculation nvidia provide
 amp_backend: "apex"

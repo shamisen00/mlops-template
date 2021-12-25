@@ -2,6 +2,8 @@ from typing import List, Optional
 
 import hydra
 from omegaconf import DictConfig
+from pytorch_lightning.core import optimizer
+from torch.nn import Module
 from pytorch_lightning import (
     Callback,
     LightningDataModule,
@@ -35,9 +37,17 @@ def train(config: DictConfig) -> Optional[float]:
     log.info(f"Instantiating datamodule <{config.datamodule._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(config.datamodule)
 
-    # Init lightning model
-    log.info(f"Instantiating model <{config.model._target_}>")
-    model: LightningModule = hydra.utils.instantiate(config.model)
+    # Init module
+    log.info(f"Instantiating module <{config.model.module._target_}>")
+    module: Module = hydra.utils.instantiate(config.model.module)
+
+    # Init optimzer
+    log.info(f"Instantiating optimizer <{config.model.optimizer._target_}>")
+    optimizer: Module = hydra.utils.instantiate(config.model.optimizer, params=module.parameters())
+
+    # Init network
+    log.info(f"Instantiating model <{config.model.network._target_}>")
+    model: LightningModule = hydra.utils.instantiate(config.model.network, module=module, optimizer=optimizer)
 
     # Init lightning callbacks
     callbacks: List[Callback] = []
