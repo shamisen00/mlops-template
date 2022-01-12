@@ -16,4 +16,4 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build -f .devcontainer/Dockerfile . --tag my-image-name
-          docker run -dit my-image-name "python run.py mode=debug"
+          docker run -dit my-image-name python /workspace/project/run.py mode=debug
